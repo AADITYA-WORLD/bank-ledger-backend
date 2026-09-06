@@ -81,6 +81,10 @@ A Postman collection is included in the `/postman` folder — import it to test 
 | POST | /api/transfer | Transfer money to another user |
 | GET | /api/account/transactions?page=1&limit=5 | Paginated transaction history |
 
-## Notes
 
+## Note on Emails
+Due to Resend's free-tier sandbox restriction, transactional emails currently only deliver to the developer's verified email address. In a production setup, a verified custom domain would be used to send to any recipient.
+
+
+## Notes
 This is a learning project built to practice backend fundamentals — it is not connected to a real payment gateway, and the system reserve account is a simulated construct for demonstrating double-entry bookkeeping.
