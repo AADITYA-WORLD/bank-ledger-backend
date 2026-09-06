@@ -11,6 +11,7 @@ async function registerUser(req, res) {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
+  
     const { name, email, password } = req.body;
     const normalizedEmail = email?.toLowerCase().trim();
 
