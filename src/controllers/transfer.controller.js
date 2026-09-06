@@ -99,23 +99,29 @@ async function transferMoney(req, res) {
       const senderUser = await userModel.findById(req.user._id);
       const receiverUser = await userModel.findById(toUserId);
 
-     sendDebitEmail({
-      senderName: senderUser.name,
-      senderEmail: senderUser.email,
-      receiverName: receiverUser.name,
-      receiverEmail: receiverUser.email,
-      amount,
-      transactionId: transaction[0]._id,
-    }).catch((err) => console.error("Debit email failed:", err.message));
+  console.log("About to send debit/credit emails");
 
-    sendCreditEmail({
-      senderName: senderUser.name,
-      senderEmail: senderUser.email,
-      receiverName: receiverUser.name,
-      receiverEmail: receiverUser.email,
-      amount,
-      transactionId: transaction[0]._id,
-    }).catch((err) => console.error("Credit email failed:", err.message));
+sendDebitEmail({
+  senderName: senderUser.name,
+  senderEmail: senderUser.email,
+  receiverName: receiverUser.name,
+  receiverEmail: receiverUser.email,
+  amount,
+  transactionId: transaction[0]._id,
+})
+  .then(() => console.log("Debit email sent successfully"))
+  .catch((err) => console.error("Debit email failed:", err.message));
+
+sendCreditEmail({
+  senderName: senderUser.name,
+  senderEmail: senderUser.email,
+  receiverName: receiverUser.name,
+  receiverEmail: receiverUser.email,
+  amount,
+  transactionId: transaction[0]._id,
+})
+  .then(() => console.log("Credit email sent successfully"))
+  .catch((err) => console.error("Credit email failed:", err.message));
 
     res.status(200).json({
       message: "Transfer successful",
