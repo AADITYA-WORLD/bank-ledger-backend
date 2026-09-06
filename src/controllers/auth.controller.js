@@ -35,15 +35,12 @@ async function registerUser(req, res) {
 
     const token = await generateTokenSetCookie({ id: newUser[0]._id }, res);
 
-   console.log("About to send welcome email to:", newUser[0].email);
 
     sendWelcomeEmail({
       name: newUser[0].name,
       email: newUser[0].email,
       accountNumber: newAccount[0]._id,
-    })
-    .then(() => console.log("Welcome email sent successfully"))
-    .catch((err) => console.error("Welcome email failed:", err.message));
+    }).catch((err) => console.error("Welcome email failed:", err.message));
 
     res.status(201).json({
       message: "User registered successfully",
