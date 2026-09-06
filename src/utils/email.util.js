@@ -11,6 +11,14 @@
 //   },
 // });
 
+// async function sendEmail({ to, subject, html }) {
+//   await transporter.sendMail({
+//     from: `"Aaditya Banking" <${process.env.EMAIL_FROM}>`,
+//     to,
+//     subject,
+//     html,
+//   });
+// }
 
 
 const { Resend } = require("resend");
@@ -31,17 +39,6 @@ async function sendEmail({ to, subject, html }) {
   return data;
 }
 
-
-async function sendEmail({ to, subject, html }) {
-  await transporter.sendMail({
-    from: `"Aaditya Banking" <${process.env.EMAIL_FROM}>`,
-    to,
-    subject,
-    html,
-  });
-}
-
-// Reusable wrapper - repeated table/header/footer HTML yaha se generate hota hai
 function buildEmailTemplate({ name, message, rows }) {
   const rowsHtml = rows
     .map(
