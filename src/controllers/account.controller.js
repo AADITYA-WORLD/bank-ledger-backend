@@ -141,14 +141,34 @@ async function getTransactionHistory(req, res) {
       })
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
+      .populate({ path: "fromAccount", populate: { path: "user", select: "name email" } })
+      .populate({ path: "toAccount", populate: { path: "user", select: "name email" } });
 
     const total = await transactionModel.countDocuments({
       $or: [{ fromAccount: account._id }, { toAccount: account._id }],
     });
 
+    // Har transaction me 'direction' aur 'otherParty' add karo current user ke perspective se
+    const formattedTransactions = transactions.map((txn) => {
+      const isDebit = txn.fromAccount._id.toString() === account._id.toString();
+      const otherAccount = isDebit ? txn.toAccount : txn.fromAccount;
+
+      return {
+        _id: txn._id,
+        amount: txn.amount,
+        status: txn.status,
+        createdAt: txn.createdAt,
+        direction: isDebit ? "debit" : "credit",
+        otherParty: {
+          name: otherAccount?.user?.name || "Unknown",
+          email: otherAccount?.user?.email || "Unknown",
+        },
+      };
+    });
+
     res.status(200).json({
-      transactions,
+      transactions: formattedTransactions,
       currentPage: page,
       totalPages: Math.ceil(total / limit),
       totalTransactions: total,
