@@ -2,6 +2,11 @@
 
 A double-entry ledger-based banking backend, built to learn real-world backend concepts: authentication, atomic transactions, and financial data integrity.
 
+## Live Demo
+Frontend: https://bank-frontend-peach.vercel.app
+Backend API: https://bank-ledger-backend-0bzh.onrender.com
+Frontend repo: https://github.com/AADITYA-WORLD/Bank-frontend
+
 ## Features
 
 - User authentication (JWT + HTTP-only cookies)
